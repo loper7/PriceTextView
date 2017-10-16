@@ -1,1 +1,1 @@
-include ':app', ':pricetextviewlibrary'
+include ':app', ':pricetextview'
