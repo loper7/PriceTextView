@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_show = (Button) findViewById(R.id.btn_show);
         edit = (EditText) findViewById(R.id.edit_price);
 
+
         btn_show.setOnClickListener(this);
     }
 
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_show:
-                tv_none.setText(edit.getText().toString());
+                tv_none.setText(3.0f, edit.getText().toString());
                 tv_normal.parsePrice(edit.getText().toString()).show();
                 tv_symbol.parsePrice(edit.getText().toString()).showSymbol("￥");
                 tv_unit.parsePrice(edit.getText().toString()).showUnit("元");

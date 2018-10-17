@@ -7,6 +7,7 @@ import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.RelativeSizeSpan;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
@@ -20,19 +21,22 @@ import java.text.DecimalFormat;
 public class PriceTextView extends TextView {
 
     //变大字体倍数
-    private float bigTimes = 1.3f;
+    private float bigTimes;
     private String showPrice = "";
 
     public PriceTextView(Context context) {
         super(context);
+        bigTimes = 1.5f;
     }
 
     public PriceTextView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        bigTimes = 1.5f;
     }
 
     public PriceTextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        bigTimes = 1.5f;
     }
 
 
@@ -42,6 +46,7 @@ public class PriceTextView extends TextView {
      * @param text price
      * @return 0.00
      */
+    @Deprecated
     public PriceTextView parsePrice(String text) {
 
         double price;
@@ -58,6 +63,7 @@ public class PriceTextView extends TextView {
     /**
      * 显示常态
      */
+    @Deprecated
     public void show() {
         super.setText(showPrice);
     }
@@ -65,6 +71,7 @@ public class PriceTextView extends TextView {
     /**
      * 显示符号
      */
+    @Deprecated
     public PriceTextView showSymbol(String symbol) {
         if (TextUtils.isEmpty(symbol))
             symbol = "";
@@ -76,12 +83,35 @@ public class PriceTextView extends TextView {
     /**
      * 显示单位
      */
+    @Deprecated
     public PriceTextView showUnit(String unit) {
         if (TextUtils.isEmpty(unit))
             unit = "";
         super.setText(showPrice + unit);
 
         return this;
+    }
+
+    /**
+     * 设置变大倍数
+     *
+     * @param f
+     */
+    @Deprecated
+    public PriceTextView setBigTimes(float f) {
+        this.bigTimes = f;
+        return this;
+    }
+
+    /**
+     * 设置、放大字体倍数
+     *
+     * @param bigTimes 倍数
+     * @param text     文字
+     */
+    public void setText(float bigTimes, CharSequence text) {
+        this.bigTimes = bigTimes;
+        super.setText(text);
     }
 
     @Override
@@ -96,9 +126,21 @@ public class PriceTextView extends TextView {
         int startIndex = 0;
 
         //去掉首位单位符号
-        int chrStart = showPrice.charAt(0);
-        if (chrStart < 48 || chrStart > 57)
-            startIndex = 1;
+        for (int i = 0; i < showPrice.length(); i++) {
+            int chrStart = showPrice.charAt(i);
+            if (chrStart >= 48 && chrStart <= 57) {
+                startIndex = i;
+                break;
+            } else {
+                startIndex = i + 1;
+            }
+
+        }
+        //字符串中没有数字
+        if (startIndex >= showPrice.length()) {
+            super.setText(text, type);
+            return;
+        }
         //末尾变小判断
         if (dotIndex == -1) {
             for (int i = 0; i < showPrice.length(); i++) {
@@ -107,11 +149,17 @@ public class PriceTextView extends TextView {
                     dotIndex = showPrice.length() - (i + 1);
                 }
             }
-            dotIndex = dotIndex == -1 ? showPrice.length() : dotIndex;
+            if (dotIndex <= 0)
+                dotIndex = showPrice.length();
+        }
+        //开始位置大于结束位置
+        if (startIndex >= dotIndex) {
+            super.setText(text, type);
+            return;
         }
 
         Spannable span = new SpannableString(showPrice);
-        span.setSpan(new RelativeSizeSpan(bigTimes), startIndex, dotIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        span.setSpan(new RelativeSizeSpan(bigTimes == 0 ? 1.5f : bigTimes), startIndex, dotIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         super.setText(span, type);
     }
 
