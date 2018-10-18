@@ -143,10 +143,11 @@ public class PriceTextView extends TextView {
         }
         //末尾变小判断
         if (dotIndex == -1) {
-            for (int i = 0; i < showPrice.length(); i++) {
-                int cgrEnd = showPrice.charAt(showPrice.length() - (i + 1));
+            for (int i = startIndex; i < showPrice.length(); i++) {
+                int cgrEnd = showPrice.charAt(i);
                 if (cgrEnd < 48 || cgrEnd > 57) {
-                    dotIndex = showPrice.length() - (i + 1);
+                    dotIndex = i;
+                    break;
                 }
             }
             if (dotIndex <= 0)
