@@ -18,7 +18,7 @@
  ```Java
 maven {url "https://jitpack.io" }
 
-compile 'com.github.loperSeven:PriceTextView:1.0'
+compile 'com.github.loperSeven:PriceTextView:1.0.1'
  ```
 
 #### xml布局
@@ -33,21 +33,25 @@ compile 'com.github.loperSeven:PriceTextView:1.0'
 ```Java
 tv_none.setText("￥599.999万元");
 ```
+##### 支持自定义放大倍数（默认1.5倍）
+```Java
+tv_none.setText(3.0f,"￥599.999万元");
+```
 #### 上图第二种显示方式（常态：类似于原生，必须传入正确的数字，进行四舍五入保留两位小数后显示）
 ```Java
-tv_normal.parsePrice("500.1").show();
+tv_normal.parsePrice("500.1").show();//已标注过期 不推荐使用
 ```
 #### 上图第三种显示方式（符号：类似于常态，自定义符号字符）
 ```Java
-tv_symbol.parsePrice("599.34").showSymbol("￥");
+tv_symbol.parsePrice("599.34").showSymbol("￥");//已标注过期 不推荐使用
 ```
 #### 上图第四种显示方式（单位：类似于常态，自定义单位字符）
 ```Java
-tv_unit.parsePrice("599.56").showUnit("元");
+tv_unit.parsePrice("599.56").showUnit("元");//已标注过期 不推荐使用
 ```
 #### 上图第五种显示方式（单/符：类似于常态，自定义单位、符号字符）
 ```Java
-tv_sau.parsePrice("199.56").showSymbol("￥").showUnit("元");
+tv_sau.parsePrice("199.56").showSymbol("￥").showUnit("元");//已标注过期 不推荐使用
 ```
 # 最后
 
