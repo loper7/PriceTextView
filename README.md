@@ -18,7 +18,7 @@
  ```Java
 maven {url "https://jitpack.io" }
 
-compile 'com.github.loperSeven:PriceTextView:1.0.1'
+compile 'com.github.loperSeven:PriceTextView:1.0.2'
  ```
 
 #### xml布局
